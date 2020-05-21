@@ -12,3 +12,14 @@ fs.writeFile("./myFile.txt", "new data", "utf-8", (err) => {
     console.log(data);
   });
 });
+
+//setup an http server
+const http = require("http"); //require http module
+const server = http.createServer((req, res) => {
+  res.end("Hello World!! this is the http server!!");
+});
+
+// listen to port 8000 to serve any http request on port 8000
+server.listen(8000, "127.0.0.1", () => {
+  console.log("server is up on port 8000");
+});
