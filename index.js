@@ -1,17 +1,5 @@
 const fs = require("fs"); // require fileSystem module
-const writeTxt = fs.writeFileSync("./myFile.txt", "this is my text"); // write a text in myFile.txt
-const readTxt = fs.readFileSync("./myFile.txt", "utf-8"); // read the text from myFile.txt
-console.log(readTxt); // log readTxt which contain the text we read from myFile.txt
-
-// Write-Read data asynchronously
-fs.writeFile("./myFile.txt", "new data", "utf-8", (err) => {
-  if (err) {
-    return console.log(err);
-  }
-  fs.readFile("./myFile.txt", "utf-8", (err, data) => {
-    console.log(data);
-  });
-});
+const http = require("http"); //require http module
 
 //define function to replace the placeholders
 replaceTemplate = (temp, product) => {
@@ -37,21 +25,10 @@ const data = fs.readFileSync("./myFile.json", "utf-8");
 const dataObject = JSON.parse(data);
 
 //setup an http server
-const http = require("http"); //require http module
 const server = http.createServer((req, res) => {
-  //setup the login route and communicating with the browser
   const pathName = req.url;
-  if (pathName === "/login") {
-    res.end("this is the login page");
-    // setup API page
-  } else if (pathName === "/api") {
-    // sending header and json data
-    res.writeHead(200, {
-      "Content-type": "application/json",
-    });
-    res.end(data);
-    //setup overview route
-  } else if (pathName === "/overview") {
+  //setup overview route
+  if (pathName === "/overview") {
     res.writeHead(200, {
       "Content-type": "text/html",
     });
@@ -63,6 +40,7 @@ const server = http.createServer((req, res) => {
     res.end(output);
     //setup product route
   } else if (pathName === "/product") {
+    res.end("product page");
   } else {
     //sending header and status
     res.writeHead(404, {
