@@ -16,7 +16,18 @@ fs.writeFile("./myFile.txt", "new data", "utf-8", (err) => {
 //setup an http server
 const http = require("http"); //require http module
 const server = http.createServer((req, res) => {
-  res.end("Hello World!! this is the http server!!");
+  //setup the login route and communicating with the browser
+  const pathName = req.url;
+  if (pathName == "/login") {
+    return res.end("this is the login page");
+  }
+  //sending header and status
+  res.writeHead(404, {
+    "Content-type": "text/html",
+    "my-own-header": "hello world",
+  });
+  // sending html to the browser
+  res.end("<h1 >Page not found</h1>");
 });
 
 // listen to port 8000 to serve any http request on port 8000
