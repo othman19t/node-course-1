@@ -1,6 +1,6 @@
 const fs = require("fs"); // require fileSystem module
 const http = require("http"); //require http module
-
+const url = require("url"); //require url module
 //define function to replace the placeholders
 replaceTemplate = (temp, product) => {
   let output = temp.replace(/{%PRODUCTNAME%}/g, product.productName);
@@ -26,9 +26,10 @@ const dataObject = JSON.parse(data);
 
 //setup an http server
 const server = http.createServer((req, res) => {
-  const pathName = req.url;
+  const { query, pathname } = url.parse(req.url, true);
+
   //setup overview route
-  if (pathName === "/overview") {
+  if (pathname === "/overview") {
     res.writeHead(200, {
       "Content-type": "text/html",
     });
@@ -39,8 +40,11 @@ const server = http.createServer((req, res) => {
     const output = tempOw.replace("{%PRODUCT_CARDS%}", cardHtml);
     res.end(output);
     //setup product route
-  } else if (pathName === "/product") {
-    res.end("product page");
+  } else if (pathname === "/product") {
+    res.writeHead(200, { "Content-type": "text/html" });
+    const product = dataObject[query.id];
+    const output = replaceTemplate(tempPeo, product);
+    res.end(output);
   } else {
     //sending header and status
     res.writeHead(404, {
