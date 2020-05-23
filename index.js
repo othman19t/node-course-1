@@ -2,6 +2,8 @@ const fs = require("fs"); // require fileSystem module
 const http = require("http"); //require http module
 const url = require("url"); //require url module
 const replaceTemplate = require("./modules/replaceTemplate");
+
+const port = process.env.PORT || 8000;
 // read data to get it ready to send it to the browser when it is requested
 const tempOw = fs.readFileSync(`${__dirname}/templates/overview.html`, "utf-8");
 const tempCard = fs.readFileSync(`${__dirname}/templates/card.html`, "utf-8");
@@ -43,6 +45,6 @@ const server = http.createServer((req, res) => {
 });
 
 // listen to port 8000 to serve any http request on port 8000
-server.listen(8000, "127.0.0.1", () => {
+server.listen(port, () => {
   console.log("server is up on port 8000");
 });
